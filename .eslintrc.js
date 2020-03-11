@@ -10,6 +10,5 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "on",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "on",
-    semi: ["error", "always"]
   }
-};
+}

@@ -1,17 +1,18 @@
 const book = {
+  namespaced: true,
   state: {
-    test: 1
+    fileName: ''
   },
   mutations: {
-    SET_TEST: (state, newValue) => {
-      state.test = newValue;
+    SET_FILENAME: (state, newValue) => {
+      state.fileName = newValue
     }
   },
   actions: {
-    setTest: ({ commit, state }, newValue) => {
-      return commit("SET_TEST", newValue);
+    setFileName: ({ commit }, newValue) => {
+      return commit('SET_FILENAME', newValue)
     }
   }
-};
+}
 
-export default book;
+export default book

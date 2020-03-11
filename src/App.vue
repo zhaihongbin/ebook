@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
     <router-view />
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
 export default {
+  name: 'app',
+  components: {},
   mounted () {
     document.addEventListener('DOMContentLoaded', () => {
       const html = document.querySelector('html')
@@ -20,5 +22,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./assets/styles/global";
 
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  span {
+    font-family: "Days One";
+    font-size: px2rem(20);
+  }
+}
 </style>
