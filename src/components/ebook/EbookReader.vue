@@ -5,20 +5,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 global.ePub = Epub
 export default {
-  computed: { ...mapGetters(['fileName']) },
+  mixins: [ebookMixin],
   methods: {
-    ...mapActions('book', ['setFileName']),
     prevPage () {
       if (this.rendition) { this.rendition.prev() }
     },
     nextPage () {
       if (this.rendition) { this.rendition.next() }
     },
-    toggleTitleAndMenu () { },
+    toggleTitleAndMenu () {
+      this.toggleMenuVisible()
+    },
     initEpub () {
       const url = 'http://192.168.0.103:8181/epub/' + this.fileName + '.epub'
       // 初始化epub，传入电子书地址
