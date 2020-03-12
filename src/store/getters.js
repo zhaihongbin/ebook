@@ -6,7 +6,9 @@ const book = {
   defaultFontFamily: state => state.book.defaultFontFamily,
   defaultTheme: state => state.book.defaultTheme,
   fontFamilyVisible: state => state.book.fontFamilyVisible,
-  currentBook: state => state.book.currentBook
+  currentBook: state => state.book.currentBook,
+  bookAvailable: state => state.book.bookAvailable,
+  progress: state => state.book.progress
 }
 
 export default book

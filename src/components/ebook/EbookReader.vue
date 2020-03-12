@@ -57,11 +57,7 @@ export default {
       // 设置默认主题
       this.rendition.themes.select(defaultTheme)
     },
-    initEpub () {
-      const url = `${process.env.VUE_APP_RES_URL}/epub/` + this.fileName + '.epub'
-      // 初始化epub，传入电子书地址
-      this.book = new Epub(url)
-      this.setCurrentBook(this.book)
+    initRendition () {
       // 将电子书绑定到dom节点，并进行基础设置
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
@@ -76,6 +72,22 @@ export default {
         this.initFontFamily()
         this.initGlobalStyle()
       })
+      // epubjs是独立的iframe，所以字体文件需要导入到那个iframe中
+      // contents.addStylesheet()只接受一个url作为地址！
+      this.rendition.hooks.content.register(contents => {
+        Promise.all(
+          [
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
+            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
+          ]
+        ).then(() => {
+          console.log('字体全部加载完毕')
+        })
+      })
+    },
+    initGesture () {
       // 监听电子书页面的手势
       this.rendition.on('touchstart', event => {
         // console.log(event)
@@ -99,18 +111,18 @@ export default {
         // event.preventDefault()
         event.stopPropagation()
       })
-      // epubjs是独立的iframe，所以字体文件需要导入到那个iframe中
-      // contents.addStylesheet()只接受一个url作为地址！
-      this.rendition.hooks.content.register(contents => {
-        Promise.all(
-          [
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
-            contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
-          ]
-        ).then(() => {
-          console.log('字体全部加载完毕')
+    },
+    initEpub () {
+      const url = `${process.env.VUE_APP_RES_URL}/epub/` + this.fileName + '.epub'
+      // 初始化epub，传入电子书地址
+      this.book = new Epub(url)
+      this.setCurrentBook(this.book)
+      this.initRendition()
+      this.initGesture()
+      // 电子书全本解析完成后调用分页
+      this.book.ready.then(() => {
+        return this.book.locations.generate().then(() => {
+          this.setBookAvailable(true)
         })
       })
     }

@@ -3,12 +3,12 @@ import { themeList, addCss, removeCss } from './book'
 
 export const ebookMixin = {
   computed: {
-    ...mapGetters(['fileName', 'menuVisible', 'settingVisible', 'defaultFontSize', 'currentBook', 'defaultFontFamily', 'fontFamilyVisible', 'defaultTheme'
+    ...mapGetters(['fileName', 'menuVisible', 'settingVisible', 'defaultFontSize', 'currentBook', 'defaultFontFamily', 'fontFamilyVisible', 'defaultTheme', 'progress', 'bookAvailable'
     ]),
     themeList
   },
   methods: {
-    ...mapActions('book', ['setFileName', 'toggleMenuVisible', 'setSettingVisible', 'setDefaultFontSize', 'setCurrentBook', 'setDefaultFontFamily', 'setFontFamilyVisible', 'setDefaultTheme']),
+    ...mapActions('book', ['setFileName', 'toggleMenuVisible', 'setSettingVisible', 'setDefaultFontSize', 'setCurrentBook', 'setDefaultFontFamily', 'setFontFamilyVisible', 'setDefaultTheme', 'setProgress', 'setBookAvailable']),
     initGlobalStyle () {
       removeCss()
       switch (this.defaultTheme) {
