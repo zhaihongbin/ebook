@@ -7,7 +7,7 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
-import { getFontFamily, saveFontFamily, getFontSize, saveFontSize } from '../../utils/localStorage'
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme } from '../../utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -43,8 +43,22 @@ export default {
         this.setDefaultFontFamily(font)
       }
     },
+    initTheme () {
+      let defaultTheme = getTheme(this.fileName)
+      if (!defaultTheme) {
+        defaultTheme = this.themeList[0].name
+        saveTheme(this.fileName, defaultTheme)
+      }
+      this.setDefaultTheme(defaultTheme)
+      // 遍历主题列表进行注册
+      this.themeList.forEach((theme) => {
+        this.rendition.themes.register(theme.name, theme.style)
+      })
+      // 设置默认主题
+      this.rendition.themes.select(defaultTheme)
+    },
     initEpub () {
-      const url = 'http://192.168.0.103:8181/epub/' + this.fileName + '.epub'
+      const url = `${process.env.VUE_APP_RES_URL}/epub/` + this.fileName + '.epub'
       // 初始化epub，传入电子书地址
       this.book = new Epub(url)
       this.setCurrentBook(this.book)
@@ -57,8 +71,10 @@ export default {
       })
       // 显示电子书,并从缓存中读取相关设置
       this.rendition.display().then(() => {
+        this.initTheme()
         this.intiFontSize()
         this.initFontFamily()
+        this.initGlobalStyle()
       })
       // 监听电子书页面的手势
       this.rendition.on('touchstart', event => {

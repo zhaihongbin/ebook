@@ -7,6 +7,7 @@ const book = {
     settingVisible: -1, // -1不显示，0字号，1主题，2进度，3目录
     defaultFontSize: 16,
     defaultFontFamily: 'Default',
+    defaultTheme: 'Default',
     fontFamilyVisible: false,
     currentBook: null
   },
@@ -25,6 +26,9 @@ const book = {
     },
     SET_DEFAULT_FONT_SIZE: (state, newValue) => {
       state.defaultFontSize = newValue
+    },
+    SET_DEFAULT_THEME: (state, newValue) => {
+      state.defaultTheme = newValue
     },
     SET_DEFAULT_FONT_FAMILY: (state, newValue) => {
       state.defaultFontFamily = newValue
@@ -48,6 +52,9 @@ const book = {
     },
     setDefaultFontSize: ({ commit }, newValue) => {
       return commit('SET_DEFAULT_FONT_SIZE', newValue)
+    },
+    setDefaultTheme: ({ commit }, newValue) => {
+      return commit('SET_DEFAULT_THEME', newValue)
     },
     setDefaultFontFamily: ({ commit }, newValue) => {
       return commit('SET_DEFAULT_FONT_FAMILY', newValue)
