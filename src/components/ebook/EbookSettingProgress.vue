@@ -40,9 +40,15 @@ import { ebookMixin } from '../../utils/mixin'
 
 export default {
   mixins: [ebookMixin],
-  data () {
-    return {
-      getSectionName: 'test'
+  computed: {
+    getSectionName () {
+      if (this.section) {
+        const sectionInfo = this.currentBook.section(this.section)
+        if (sectionInfo && sectionInfo.href) {
+          return this.currentBook.navigation.get(sectionInfo.href)?.label || ''
+        }
+      }
+      return ''
     }
   },
   methods: {
@@ -62,12 +68,13 @@ export default {
     },
     displayProgress () {
       const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
-      this.currentBook.rendition.display(cfi)
+      this.display(cfi)
     },
     updateProgressBg () {
       this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
     },
     prevSection () {
+      // 书解析完毕后才能进行章节切换
       if (this.section > 0 && this.bookAvailable) {
         this.setSection(this.section - 1).then(() => {
           this.displaySection()
@@ -75,6 +82,7 @@ export default {
       }
     },
     nextSection () {
+      // this.currentBook.spine.length为章节综述
       if (this.section < this.currentBook.spine.length - 1 && this.bookAvailable) {
         this.setSection(this.section + 1).then(() => {
           this.displaySection()

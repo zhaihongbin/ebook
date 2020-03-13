@@ -4,11 +4,20 @@ const book = {
   settingVisible: state => state.book.settingVisible,
   defaultFontSize: state => state.book.defaultFontSize,
   defaultFontFamily: state => state.book.defaultFontFamily,
-  defaultTheme: state => state.book.defaultTheme,
   fontFamilyVisible: state => state.book.fontFamilyVisible,
-  currentBook: state => state.book.currentBook,
+  defaultTheme: state => state.book.defaultTheme,
   bookAvailable: state => state.book.bookAvailable,
-  progress: state => state.book.progress
+  progress: state => state.book.progress,
+  section: state => state.book.section,
+  isPaginating: state => state.book.isPaginating,
+  currentBook: state => state.book.currentBook,
+  navigation: state => state.book.navigation,
+  cover: state => state.book.cover,
+  metadata: state => state.book.metadata,
+  paginate: state => state.book.paginate,
+  pagelist: state => state.book.pagelist,
+  offsetY: state => state.book.offsetY,
+  isBookmark: state => state.book.isBookmark
 }
 
 export default book

@@ -7,16 +7,17 @@
 <script>
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
-import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme } from '../../utils/localStorage'
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
   methods: {
     prevPage () {
-      if (this.rendition) { this.rendition.prev() }
+      this.refreshLocation()
+      if (this.rendition) { this.rendition.prev().then(() => { this.refreshLocation() }) }
     },
     nextPage () {
-      if (this.rendition) { this.rendition.next() }
+      if (this.rendition) { this.rendition.next().then(() => { this.refreshLocation() }) }
     },
     toggleTitleAndMenu () {
       this.toggleMenuVisible()
@@ -66,7 +67,8 @@ export default {
         method: 'default'
       })
       // 显示电子书,并从缓存中读取相关设置
-      this.rendition.display().then(() => {
+      const location = getLocation(this.fileName)
+      this.display(location, () => {
         this.initTheme()
         this.intiFontSize()
         this.initFontFamily()
@@ -123,6 +125,7 @@ export default {
       this.book.ready.then(() => {
         return this.book.locations.generate().then(() => {
           this.setBookAvailable(true)
+          this.refreshLocation()
         })
       })
     }
