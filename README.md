@@ -1,24 +1,8 @@
 # ebook
 
-## Project setup
-```
-npm install
-```
+## 项目描述
+借助epubjs与localStorage实现移动端电子书阅读器的基本功能：
++ 主题切换
++ 字号与字体设置
++ 进度条
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
