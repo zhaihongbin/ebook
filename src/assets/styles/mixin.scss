@@ -1,4 +1,3 @@
-//定义变量
 $ratio: 375 / 10;
 
 @function px2rem($px) {
@@ -11,13 +10,13 @@ $ratio: 375 / 10;
   align-items: center;
 }
 
-@mixin flex-start {
+@mixin left {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-@mixin flex-end {
+@mixin right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
